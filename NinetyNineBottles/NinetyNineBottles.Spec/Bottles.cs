@@ -4,12 +4,20 @@ namespace NinetyNineBottles.Spec
     {
         public string Verse(int numberOfBottles)
         {
-            var bottle = new BottlesOfBeer(numberOfBottles);
-            var bottlesOfBeer = bottle.GetBottlesOfBeer();
-            return "VERSE\n" 
-                   + $"{bottlesOfBeer} of beer on the wall, {bottlesOfBeer} of beer.\n"
-                   + ConstructVerseLineForOneLessBottle(numberOfBottles)
-                   + "VERSE";
+            return $"VERSE\n{BuildVerse(numberOfBottles)}VERSE";
+        }
+
+        private static string BuildVerse(int numberOfBottles)
+        {
+            if (numberOfBottles == 0)
+            {
+                return "No more bottles of beer on the wall, no more bottles of beer.\n"
+                       + "Go to the store and buy some more, 99 bottles of beer on the wall.\n";
+            }
+
+            var bottlesOfBeer = BuildNBottlesOfBeerWithPlurarity(numberOfBottles);
+            return $"{bottlesOfBeer} of beer on the wall, {bottlesOfBeer} of beer.\n"
+                   + ConstructVerseLineForOneLessBottle(numberOfBottles);
         }
 
         private static string ConstructVerseLineForOneLessBottle(int numberOfBottles)
@@ -19,23 +27,13 @@ namespace NinetyNineBottles.Spec
                 return "Take it down and pass it around, no more bottles of beer on the wall.\n";
             }
             
-            var bottlesOfBeer = new BottlesOfBeer(numberOfBottles-1).GetBottlesOfBeer();
+            var bottlesOfBeer = BuildNBottlesOfBeerWithPlurarity(numberOfBottles-1);
             return $"Take one down and pass it around, {bottlesOfBeer} of beer on the wall.\n";
         }
-    }
-
-    public class BottlesOfBeer
-    {
-        public int NumberOfBottles { get; }
-
-        public BottlesOfBeer(int numberOfBottles)
+        
+        private static string BuildNBottlesOfBeerWithPlurarity(int numberOfBottles)
         {
-            NumberOfBottles = numberOfBottles;
-        }
-
-        public string GetBottlesOfBeer()
-        {
-            return $"{NumberOfBottles} {GetBottlePlurarity(NumberOfBottles)}";
+            return $"{numberOfBottles} {GetBottlePlurarity(numberOfBottles)}";
         }
         
         private static string GetBottlePlurarity(int numberOfBottles)
