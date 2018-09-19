@@ -56,5 +56,18 @@ Go to the store and buy some more, 99 bottles of beer on the wall.
 VERSE";
             Assert.Equal(expected, new Bottles().Verse(0));
         }
+
+        [Fact]
+        public void A_couple_of_verses()
+        {
+            var expected = @"VERSES
+99 bottles of beer on the wall, 99 bottles of beer.
+Take one down and pass it around, 98 bottles of beer on the wall.
+
+98 bottles of beer on the wall, 98 bottles of beer.
+Take one down and pass it around, 97 bottles of beer on the wall.
+VERSES";
+            Assert.Equal(expected, new Bottles().Verses(99,98));
+        }
     }
 }
