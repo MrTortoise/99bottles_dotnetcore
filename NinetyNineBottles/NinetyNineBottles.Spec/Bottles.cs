@@ -8,47 +8,8 @@ namespace NinetyNineBottles.Spec
     {
         public string Verse(int numberOfBottles)
         {
-            return $"VERSE\n{BuildVerse(numberOfBottles)}\nVERSE";
-        }
-
-        private static string BuildVerse(int numberOfBottles)
-        {
-            if (numberOfBottles == 0)
-            {
-                return "No more bottles of beer on the wall, no more bottles of beer.\n"
-                       + "Go to the store and buy some more, 99 bottles of beer on the wall.";
-            }
-
-            var bottlesOfBeer = BuildNBottlesOfBeerWithPlurarity(numberOfBottles);
-            return $"{bottlesOfBeer} of beer on the wall, {bottlesOfBeer} of beer.\n"
-                   + ConstructVerseLineForOneLessBottle(numberOfBottles);
-        }
-
-        private static string ConstructVerseLineForOneLessBottle(int numberOfBottles)
-        {
-            if (numberOfBottles == 1)
-            {
-                return "Take it down and pass it around, no more bottles of beer on the wall.";
-            }
-            
-            var bottlesOfBeer = BuildNBottlesOfBeerWithPlurarity(numberOfBottles-1);
-            return $"Take one down and pass it around, {bottlesOfBeer} of beer on the wall.";
-        }
-        
-        private static string BuildNBottlesOfBeerWithPlurarity(int numberOfBottles)
-        {
-            return $"{numberOfBottles} {GetBottlePlurarity(numberOfBottles)}";
-        }
-        
-        private static string GetBottlePlurarity(int numberOfBottles)
-        {
-            var bottleString = "bottles";
-            if (numberOfBottles == 1)
-            {
-                bottleString = "bottle";
-            }
-
-            return bottleString;
+            var verse = new Verse(numberOfBottles).Sing();
+            return $"VERSE\n{verse}\nVERSE";
         }
 
         public string Verses(int upperNumberOfBottles, int lowerNumberOfBottles)
@@ -56,19 +17,33 @@ namespace NinetyNineBottles.Spec
             StringBuilder verses = new StringBuilder();
             verses.AppendLine("VERSES");
             
-            for (int numberOfBottles = upperNumberOfBottles; numberOfBottles >= lowerNumberOfBottles; numberOfBottles--)
-            {
-                verses.AppendLine(BuildVerse(numberOfBottles));
-                AddBlankLineIfMoreVerses(numberOfBottles, lowerNumberOfBottles, verses);
-            }
+            AppendVerses(upperNumberOfBottles, lowerNumberOfBottles, verses);
 
             verses.Append("VERSES");
             return verses.ToString();
         }
 
+        private void AppendVerses(int upperNumberOfBottles, int lowerNumberOfBottles, StringBuilder verses)
+        {
+            for (int numberOfBottles = upperNumberOfBottles; numberOfBottles >= lowerNumberOfBottles; numberOfBottles--)
+            {
+                verses.AppendLine(new Verse(numberOfBottles).Sing());
+                AddBlankLineIfMoreVerses(numberOfBottles, lowerNumberOfBottles, verses);
+            }
+        }
+
         private void AddBlankLineIfMoreVerses(int numberOfBottles, int lowerNumberOfBottles, StringBuilder verses)
         {
             if (numberOfBottles > lowerNumberOfBottles) verses.AppendLine();
+        }
+
+        public string Song()
+        {
+            var song = new StringBuilder();
+            song.AppendLine("SONG");
+            AppendVerses(99, 0, song);
+            song.Append("SONG");
+            return song.ToString();
         }
     }
 }
