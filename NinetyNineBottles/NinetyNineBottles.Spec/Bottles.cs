@@ -14,6 +14,11 @@ namespace NinetyNineBottles.Spec
 
         private static string ConstructVerseLineForOneLessBottle(int numberOfBottles)
         {
+            if (numberOfBottles == 1)
+            {
+                return "Take it down and pass it around, no more bottles of beer on the wall.\n";
+            }
+            
             var bottlesOfBeer = new BottlesOfBeer(numberOfBottles-1).GetBottlesOfBeer();
             return $"Take one down and pass it around, {bottlesOfBeer} of beer on the wall.\n";
         }
