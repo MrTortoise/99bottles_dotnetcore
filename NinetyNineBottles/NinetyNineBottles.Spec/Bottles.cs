@@ -4,23 +4,39 @@ namespace NinetyNineBottles.Spec
     {
         public string Verse(int numberOfBottles)
         {
-            var oneLessBottle = numberOfBottles-1;
+            var bottle = new BottlesOfBeer(numberOfBottles);
+            var bottlesOfBeer = bottle.GetBottlesOfBeer();
             return "VERSE\n" 
-                   + $"{numberOfBottles} bottles of beer on the wall, {numberOfBottles} bottles of beer.\n"
-                   + ConstructVerseLineForOneLessBottle(oneLessBottle)
+                   + $"{bottlesOfBeer} of beer on the wall, {bottlesOfBeer} of beer.\n"
+                   + ConstructVerseLineForOneLessBottle(numberOfBottles)
                    + "VERSE";
         }
 
-        private static string ConstructVerseLineForOneLessBottle(int oneLessBottle)
+        private static string ConstructVerseLineForOneLessBottle(int numberOfBottles)
         {
-            var bottleString = GetBottlePlurarity(oneLessBottle);
-            return $"Take one down and pass it around, {oneLessBottle} {bottleString} of beer on the wall.\n";
+            var bottlesOfBeer = new BottlesOfBeer(numberOfBottles-1).GetBottlesOfBeer();
+            return $"Take one down and pass it around, {bottlesOfBeer} of beer on the wall.\n";
+        }
+    }
+
+    public class BottlesOfBeer
+    {
+        public int NumberOfBottles { get; }
+
+        public BottlesOfBeer(int numberOfBottles)
+        {
+            NumberOfBottles = numberOfBottles;
         }
 
-        private static string GetBottlePlurarity(int oneLessBottle)
+        public string GetBottlesOfBeer()
+        {
+            return $"{NumberOfBottles} {GetBottlePlurarity(NumberOfBottles)}";
+        }
+        
+        private static string GetBottlePlurarity(int numberOfBottles)
         {
             var bottleString = "bottles";
-            if (oneLessBottle == 1)
+            if (numberOfBottles == 1)
             {
                 bottleString = "bottle";
             }
